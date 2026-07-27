@@ -1,7 +1,10 @@
 .DS_Store
 /youtube-board.json
 .env
+.env.*
+!.env.example
 .venv/
+backend/myenv/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
