@@ -3,19 +3,23 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
-from app.schemas.invoices.mapping import from_analysis, from_manifest
-from app.schemas.receipts.mapping import from_analysis as receipt_from_analysis
-from app.schemas.receipts.mapping import from_manifest as receipt_from_manifest
-from app.services.document_intelligence_service import DocumentIntelligenceService
-
 PLAYGROUND_ROOT = Path(__file__).resolve().parent
-BACKEND_ROOT = PLAYGROUND_ROOT.parent
-REPO_ROOT = BACKEND_ROOT.parent
+BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
+REPO_ROOT = PLAYGROUND_ROOT.parent
 SAMPLES_DIR = REPO_ROOT / "samples"
 MANIFEST_PATH = SAMPLES_DIR / "manifest.json"
+
+if str(BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(BACKEND_ROOT))
+
+from app.schemas.invoices.mapping import from_analysis, from_manifest  # noqa: E402
+from app.schemas.receipts.mapping import from_analysis as receipt_from_analysis  # noqa: E402
+from app.schemas.receipts.mapping import from_manifest as receipt_from_manifest  # noqa: E402
+from app.services.document_intelligence_service import DocumentIntelligenceService  # noqa: E402
 
 SAMPLE_INVOICE = SAMPLES_DIR / "sample-invoice.pdf"
 FUEL_RECEIPT = SAMPLES_DIR / "13-nl-fuel-receipt.png"

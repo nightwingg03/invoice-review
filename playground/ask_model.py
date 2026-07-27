@@ -6,20 +6,10 @@ import json
 import sys
 from pathlib import Path
 
+PLAYGROUND_ROOT = Path(__file__).resolve().parent
+BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
+REPO_ROOT = PLAYGROUND_ROOT.parent
 
-def resolve_backend_root() -> Path:
-    if "__file__" in globals():
-        return Path(__file__).resolve().parents[1]
-
-    for candidate in (Path.cwd(), Path.cwd().parent, Path.cwd() / "backend"):
-        if (candidate / "app").is_dir():
-            return candidate.resolve()
-
-    msg = "Could not find backend root. cd to backend/ or run this file as a script."
-    raise RuntimeError(msg)
-
-
-BACKEND_ROOT = resolve_backend_root()
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 

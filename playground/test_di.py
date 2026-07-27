@@ -5,14 +5,17 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from app.schemas.invoices.mapping import field_values, from_analysis
-from app.services.document_intelligence_service import DocumentIntelligenceService
-
 PLAYGROUND_ROOT = Path(__file__).resolve().parent
-BACKEND_ROOT = PLAYGROUND_ROOT.parent
-REPO_ROOT = BACKEND_ROOT.parent
+BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
+REPO_ROOT = PLAYGROUND_ROOT.parent
 SAMPLES_DIR = REPO_ROOT / "samples"
 DEFAULT_SAMPLE = SAMPLES_DIR / "sample-invoice.pdf"
+
+if str(BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(BACKEND_ROOT))
+
+from app.schemas.invoices.mapping import field_values, from_analysis  # noqa: E402
+from app.services.document_intelligence_service import DocumentIntelligenceService  # noqa: E402
 
 
 def resolve_document_path(document_path: Path | str | None = None) -> Path:

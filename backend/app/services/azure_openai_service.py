@@ -1,35 +1,22 @@
 from __future__ import annotations
 
-from pathlib import Path
-
 from openai import OpenAI
 from openai.types.responses import Response
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
-DEFAULT_DEPLOYMENT = "gpt-5-mini"
-BACKEND_ROOT = Path(__file__).resolve().parents[2]
-
-
-class AzureOpenAISettings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=BACKEND_ROOT / ".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
-
-    azure_openai_endpoint: str
-    azure_openai_api_key: str
+from app.settings.azure_openai import AzureOpenAISettings
 
 
 class AzureOpenAIService:
-    deployment = DEFAULT_DEPLOYMENT
-
     def __init__(self, settings: AzureOpenAISettings | None = None) -> None:
         self._settings = settings or AzureOpenAISettings()
         self._client = OpenAI(
             base_url=self._settings.azure_openai_endpoint.rstrip("/"),
             api_key=self._settings.azure_openai_api_key,
         )
+
+    @property
+    def deployment(self) -> str:
+        return self._settings.azure_openai_deployment
 
     def complete(self, prompt: str, *, deployment: str | None = None) -> Response:
         return self._client.responses.create(
