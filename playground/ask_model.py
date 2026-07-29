@@ -10,8 +10,7 @@ PLAYGROUND_ROOT = Path(__file__).resolve().parent
 BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
 REPO_ROOT = PLAYGROUND_ROOT.parent
 
-if str(BACKEND_ROOT) not in sys.path:
-    sys.path.insert(0, str(BACKEND_ROOT))
+sys.path.append(str(BACKEND_ROOT))
 
 from app.services.azure_openai_service import AzureOpenAIService  # noqa: E402
 

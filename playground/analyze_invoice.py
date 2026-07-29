@@ -12,8 +12,7 @@ BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
 REPO_ROOT = PLAYGROUND_ROOT.parent
 SAMPLES_DIR = REPO_ROOT / "samples"
 
-if str(BACKEND_ROOT) not in sys.path:
-    sys.path.insert(0, str(BACKEND_ROOT))
+sys.path.append(str(BACKEND_ROOT))
 
 from app.schemas.invoices.mapping import field_values, from_analysis  # noqa: E402
 from app.services.document_intelligence_service import DocumentIntelligenceService  # noqa: E402

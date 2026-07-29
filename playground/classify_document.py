@@ -26,8 +26,7 @@ BACKEND_ROOT = PLAYGROUND_ROOT.parent / "backend"
 REPO_ROOT = PLAYGROUND_ROOT.parent
 SAMPLES_DIR = REPO_ROOT / "samples"
 
-if str(BACKEND_ROOT) not in sys.path:
-    sys.path.insert(0, str(BACKEND_ROOT))
+sys.path.append(str(BACKEND_ROOT))
 
 from app.pipeline.classification import ClassificationStep  # noqa: E402
 from app.settings.azure_openai import AzureOpenAISettings  # noqa: E402
