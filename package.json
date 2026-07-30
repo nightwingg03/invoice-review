@@ -1,0 +1,11 @@
+{
+  "name": "e2e-invoice-review",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names \"API,UI\" --prefix-colors \"cyan,magenta\" \"cd backend && uv run python -m uvicorn app.main:app --reload\" \"pnpm --dir frontend dev\"",
+    "install:frontend": "pnpm --dir frontend install --frozen-lockfile"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

@@ -1,0 +1,86 @@
+import { Link, useLocation } from 'react-router-dom'
+import { FileCheck2, Moon, Sun } from 'lucide-react'
+import { ThemeProvider, useTheme } from '../context/ThemeContext'
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme()
+
+  return (
+    <button
+      onClick={toggleTheme}
+      type="button"
+      className="p-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] text-[var(--text-main)] transition-colors flex items-center justify-center cursor-pointer"
+      title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+      aria-label="Toggle theme"
+    >
+      {theme === 'light' ? (
+        <Moon className="w-4 h-4 text-[#659287]" />
+      ) : (
+        <Sun className="w-4 h-4 text-[#9CB080]" />
+      )}
+    </button>
+  )
+}
+
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+
+  return (
+    <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] transition-colors duration-200">
+      {/* Top nav */}
+      <header className="border-b border-[var(--border-color)] bg-[var(--bg-header)] backdrop-blur-md sticky top-0 z-10">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 flex h-16 items-center justify-between">
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 font-bold tracking-tight text-lg text-[var(--text-main)] hover:opacity-90 transition-opacity"
+          >
+            <div className="p-1.5 rounded-lg bg-[#659287] dark:bg-[#2B5748] text-white dark:text-[#9CB080] shadow-sm">
+              <FileCheck2 className="w-5 h-5" />
+            </div>
+            <span>Invoice Review</span>
+          </Link>
+
+          <div className="flex items-center gap-6">
+            <nav className="flex items-center gap-5 text-sm font-medium">
+              <Link
+                to="/"
+                className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
+                  location.pathname === '/'
+                    ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
+                    : 'text-[var(--text-muted)]'
+                }`}
+              >
+                Upload
+              </Link>
+              <Link
+                to="/documents"
+                className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
+                  location.pathname.startsWith('/documents')
+                    ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
+                    : 'text-[var(--text-muted)]'
+                }`}
+              >
+                Documents
+              </Link>
+            </nav>
+
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+        {children}
+      </main>
+    </div>
+  )
+}
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </ThemeProvider>
+  )
+}

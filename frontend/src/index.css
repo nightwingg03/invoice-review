@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --bg-page: #E6F2DD;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F2F8EE;
+    --bg-header: rgba(230, 242, 221, 0.85);
+    --border-color: #B1D3B9;
+    --border-accent: #88BDA4;
+    --text-main: #1C2E2A;
+    --text-muted: #52736B;
+    --brand-primary: #659287;
+    --brand-accent: #487268;
+    --badge-bg: #DCEBD2;
+    --badge-text: #375750;
+  }
+
+  html.dark {
+    color-scheme: dark;
+    --bg-page: #273338;
+    --bg-card: #2B5748;
+    --bg-card-hover: #326453;
+    --bg-header: rgba(39, 51, 56, 0.85);
+    --border-color: #3D6A5A;
+    --border-accent: #618764;
+    --text-main: #F1F5F9;
+    --text-muted: #CBD5E1;
+    --brand-primary: #9CB080;
+    --brand-accent: #B4C699;
+    --badge-bg: #1E3B32;
+    --badge-text: #C3D4AA;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family:
+      'Inter',
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
