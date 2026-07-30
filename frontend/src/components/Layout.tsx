@@ -50,17 +50,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     : 'text-[var(--text-muted)]'
                 }`}
               >
-                Upload
+                Home
               </Link>
               <Link
-                to="/documents"
+                to="/history"
                 className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
-                  location.pathname.startsWith('/documents')
+                  location.pathname.startsWith('/history') || location.pathname.startsWith('/documents')
                     ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
                     : 'text-[var(--text-muted)]'
                 }`}
               >
-                Documents
+                History
               </Link>
             </nav>
 
@@ -70,7 +70,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
+      <main className="mx-auto max-w-6xl px-4 sm:px-6 py-8 flex flex-col flex-1 min-h-[calc(100vh-4rem)]">
         {children}
       </main>
     </div>
