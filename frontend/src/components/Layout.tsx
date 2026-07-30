@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
-import { FileCheck2, Moon, Sun } from 'lucide-react'
+import { FileCheck2, LogOut, Moon, Sun } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 import { ThemeProvider, useTheme } from '../context/ThemeContext'
 
 function ThemeToggle() {
@@ -24,6 +25,7 @@ function ThemeToggle() {
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const location = useLocation()
+  const { isAuthenticated, logout } = useAuth()
 
   return (
     <div className="min-h-screen bg-[var(--bg-page)] text-[var(--text-main)] transition-colors duration-200">
@@ -41,30 +43,45 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           </Link>
 
           <div className="flex items-center gap-6">
-            <nav className="flex items-center gap-5 text-sm font-medium">
-              <Link
-                to="/"
-                className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
-                  location.pathname === '/'
-                    ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
-                    : 'text-[var(--text-muted)]'
-                }`}
-              >
-                Home
-              </Link>
-              <Link
-                to="/history"
-                className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
-                  location.pathname.startsWith('/history') || location.pathname.startsWith('/documents')
-                    ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
-                    : 'text-[var(--text-muted)]'
-                }`}
-              >
-                History
-              </Link>
-            </nav>
+            {isAuthenticated && (
+              <nav className="flex items-center gap-5 text-sm font-medium">
+                <Link
+                  to="/"
+                  className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
+                    location.pathname === '/'
+                      ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
+                      : 'text-[var(--text-muted)]'
+                  }`}
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/history"
+                  className={`transition-colors hover:text-[#659287] dark:hover:text-[#9CB080] ${
+                    location.pathname.startsWith('/history') || location.pathname.startsWith('/documents')
+                      ? 'text-[#659287] dark:text-[#9CB080] font-semibold'
+                      : 'text-[var(--text-muted)]'
+                  }`}
+                >
+                  History
+                </Link>
+              </nav>
+            )}
 
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="p-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-rose-50 dark:hover:bg-rose-950/40 text-[var(--text-muted)] hover:text-rose-600 dark:hover:text-rose-400 transition-colors flex items-center justify-center cursor-pointer"
+                  title="Logout"
+                  aria-label="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>

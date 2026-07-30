@@ -28,6 +28,7 @@ from app.documents.service import (
     FileTooLargeError,
     UnsupportedFileTypeError,
 )
+from app.security import UPLOAD_RATE_LIMITER
 
 document_router = APIRouter(prefix="/api/documents", tags=["documents"])
 
@@ -91,9 +92,11 @@ def _to_response(record) -> DocumentResponse:  # type: ignore[return]
 @document_router.post("", status_code=status.HTTP_201_CREATED, response_model=DocumentResponse)
 async def upload_document(
     file: UploadFile,
+    request: Request,
     service: DocumentService = Depends(get_service),  # noqa: B008
 ) -> DocumentResponse:
     """Upload a document and run the full pipeline."""
+    UPLOAD_RATE_LIMITER.check_rate_limit(request)
     try:
         record = await service.upload_and_process(file)
     except UnsupportedFileTypeError as exc:

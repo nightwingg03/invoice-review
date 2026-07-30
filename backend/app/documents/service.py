@@ -20,6 +20,7 @@ from fastapi import UploadFile
 from app.documents.models import DocumentRecord
 from app.documents.repository import DocumentRepository
 from app.pipeline import build_default_pipeline
+from app.security import InvalidFileContentError, validate_file_magic_bytes
 
 if TYPE_CHECKING:
     from app.config import AppConfig
@@ -84,10 +85,22 @@ class DocumentService:
         if len(data) > MAX_FILE_BYTES:
             raise FileTooLargeError(len(data))
 
-        # 3. Save to disk
-        self._config.upload_dir.mkdir(parents=True, exist_ok=True)
+        # 3. Magic Bytes Inspection (prevents Content-Type header spoofing)
+        try:
+            validate_file_magic_bytes(data, ct)
+        except InvalidFileContentError as exc:
+            raise UnsupportedFileTypeError(str(exc)) from exc
+
+        # 4. Save to disk with Path Traversal Protection
+        upload_dir_resolved = self._config.upload_dir.resolve()
+        upload_dir_resolved.mkdir(parents=True, exist_ok=True)
+
         safe_name = Path(file.filename or "upload").name
-        dest = self._config.upload_dir / f"{uuid.uuid4()}_{safe_name}"
+        dest = (upload_dir_resolved / f"{uuid.uuid4()}_{safe_name}").resolve()
+
+        if not dest.is_relative_to(upload_dir_resolved):
+            raise UnsupportedFileTypeError("Invalid destination path: Path traversal detected.")
+
         dest.write_bytes(data)
 
         # 4. Persist a pending record

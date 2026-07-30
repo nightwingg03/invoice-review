@@ -13,3 +13,4 @@ backend/data/
 samples/sample-invoice.pdf
 frontend/node_modules/
 frontend/dist/
+credentials.txt
