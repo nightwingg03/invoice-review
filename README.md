@@ -8,9 +8,9 @@ An end-to-end, enterprise-grade application for automated processing, validation
 
 ## 🌟 Key Highlights & Live Demo
 
-- **Live Deployment**: Hosted on **Azure Container Apps** with persistent **Azure Files** storage.
+- **Instant 1-Click Live Access**: Open portfolio demo hosted on **Azure Container Apps** with zero login friction.
 - **Single-Container Architecture**: Fast, zero-CORS deployment uniting FastAPI and Vite React static bundle.
-- **Password Protected**: Simple workspace access lock screen.
+- **Persistent Volume Storage**: Azure Files storage (`/app/backend/data`) for SQLite database and uploaded PDF persistence across container restarts.
 - **Security Hardened**: Binary Magic Bytes validation, IP Rate Limiting (5 uploads/5 mins), Path Traversal defense, and HTTP Security Headers.
 
 ---
