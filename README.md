@@ -36,7 +36,7 @@ flowchart LR
 
 ---
 
-## 🛠️ Maya's Reviewer Loop & Features
+## 🛠️ Reviewer Loop & Features
 
 - 📝 **Field Correction Modal**: Reviewers can edit extracted normalized fields (`vendor_name`, `total_amount`, `vat_number`, etc.) at any time.
 - 🏷️ **GL Account Override**: Interactive catalog dropdown allowing reviewers to confirm or override GL account codes with custom notes.
